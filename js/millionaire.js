@@ -152,6 +152,10 @@ var MillionaireModel = function(data) {
 	 					$("#game-over").fadeIn('slow');
 	 				});
  				} else {
+ 					
+ 					$("#question-answer-block").fadeOut('fast', function(){
+ 						$("#question-answer-block").fadeIn('slow');
+
  					self.level(self.level() + 1);
  					var bgcss = ($("#" + elm).toggleClass('correct'))
 			 		$("#answer-one").show();
@@ -159,6 +163,7 @@ var MillionaireModel = function(data) {
 			 		$("#answer-three").show();
 			 		$("#answer-four").show();
 			 		self.transitioning = false;
+			 		})
  				}
  			}, 1000)
  			

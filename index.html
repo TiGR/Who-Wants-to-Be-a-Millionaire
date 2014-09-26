@@ -64,6 +64,7 @@ Author: Aaron Nech
 				<div id="audience" class="options-button" data-bind="click: fadeOutOption"></div>
 				<div id="money">$<span data-bind="text: formatMoney()"></span></div>
 			</div>
+			<div id="question-answer-block">
 			<div id="question-box" class="uibox">
 				<!-- <span class="big-text">Q:</span> -->
 				<span class="content" data-bind="text: getQuestionText()"></span>
@@ -82,6 +83,7 @@ Author: Aaron Nech
 				<div id="answer-four" class="answer uibox" data-bind="click: function() { answerQuestion(3, $element.id) }">
 					<span class="big-text">D:</span><span data-bind="text: getAnswerText(3)"></span>
 				</div>
+			</div>
 			</div>
 		</div>
 
