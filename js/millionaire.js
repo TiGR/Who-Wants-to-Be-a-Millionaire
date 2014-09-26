@@ -68,18 +68,17 @@ var MillionaireModel = function(data) {
  	this.usedAudience = new ko.observable(false);
 
  	self.mute = function(){
- 		if(this.muting){
- 			this.muting = false
- 			$("audio").each(function(){
- 				$(this).muted = false;
- 				$(this).prop('muted', false);
- 			});
- 		}else{
- 			this.muting = true;
- 			$("audio").each(function(){
- 				$(this).prop('muted', true);
- 			});
- 		}
+ 		this.muting = !this.muting;
+ 		var muting = this.muting;
+
+ 		var src = $("#mute").attr("src");
+ 		$("#mute").attr("src", $("#mute").attr("altimg"));
+
+ 		$("#mute").attr("altimg", src)
+
+ 		$("audio").each(function(){
+ 			$(this).prop('muted', muting);
+ 		});
  	}
 
  	// Grabs the question text of the current question
@@ -141,9 +140,11 @@ var MillionaireModel = function(data) {
  	// the player to the next level (or winning the game if all
  	// levels have been completed)
  	self.rightAnswer = function(elm) {
- 		$("#" + elm).slideUp('slow', function() {
+ 		
  			startSound('rightsound', false);
- 			$("#" + elm).css('background', 'green').slideDown('slow', function() {
+ 			//var bgcss = ($("#" + elm).toggleClass('correct'))
+ 			$("#" + elm).toggleClass('correct')
+ 				setTimeout(function(){
  				self.money($(".active").data('amt'));
  				if(self.level() + 1 > 15) {
 	 				$("#game").fadeOut('slow', function() {
@@ -152,29 +153,31 @@ var MillionaireModel = function(data) {
 	 				});
  				} else {
  					self.level(self.level() + 1);
- 					$("#" + elm).css('background', 'none');
+ 					var bgcss = ($("#" + elm).toggleClass('correct'))
 			 		$("#answer-one").show();
 			 		$("#answer-two").show();
 			 		$("#answer-three").show();
 			 		$("#answer-four").show();
 			 		self.transitioning = false;
  				}
- 			});
- 		});
+ 			}, 1000)
+ 			
+ 		
  	}
 
  	// Executes the proceedure of guessing incorrectly, losing the game.
  	self.wrongAnswer = function(elm) {
- 		$("#" + elm).slideUp('slow', function() {
+ 		
  			startSound('wrongsound', false);
- 			$("#" + elm).css('background', 'red').slideDown('slow', function() {
+ 			$("#" + elm).css('background', 'red')
+ 			setTimeout(function(){
  				$("#game").fadeOut('slow', function() {
  					$("#game-over").html('Game Over!');
  					$("#game-over").fadeIn('slow');
  					self.transitioning = false;
  				});
- 			});
- 		});
+ 			}, 1000)
+ 		
  	}
 
  	// Gets the money formatted string of the current won amount of money.
