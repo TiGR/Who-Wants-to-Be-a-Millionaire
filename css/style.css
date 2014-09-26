@@ -14,11 +14,13 @@ audio {
 #game {
 	display: none;
 	text-align: center;
+	
 }
 
 #top {
 	width: 960px;
 	margin: 0 auto;
+	position: relative;
 }
 
 #levels {
@@ -73,6 +75,12 @@ audio {
 	float: left;
 	margin-left: 240px;
 	margin-top: 60px;
+}
+
+#mute {
+	position: absolute;
+	top:20px;
+	left:0px;
 }
 
 #game-over {

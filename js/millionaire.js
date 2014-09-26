@@ -48,6 +48,9 @@ var MillionaireModel = function(data) {
 	// The 15 questions of this game
     this.questions = data.questions;
 
+    // Boolean whether mute is on or off
+    this.muting		= false;
+
     // A flag to keep multiple selections
     // out while transitioning levels
     this.transitioning = false;
@@ -64,10 +67,27 @@ var MillionaireModel = function(data) {
  	this.usedPhone = new ko.observable(false);
  	this.usedAudience = new ko.observable(false);
 
+ 	self.mute = function(){
+ 		if(this.muting){
+ 			this.muting = false
+ 			$("audio").each(function(){
+ 				$(this).muted = false;
+ 				$(this).prop('muted', false);
+ 			});
+ 		}else{
+ 			this.muting = true;
+ 			$("audio").each(function(){
+ 				$(this).prop('muted', true);
+ 			});
+ 		}
+ 	}
+
  	// Grabs the question text of the current question
  	self.getQuestionText = function() {
  		return self.questions[self.level() - 1].question;
  	}
+
+
 
  	// Gets the answer text of a specified question index (0-3)
  	// from the current question

@@ -32,8 +32,13 @@ Author: Aaron Nech
 		<!-- The actual game markup -->
 		<div id="game">
 			<div id="top">
+				
+					
+				<img src="img/mute.png" id="mute" data-bind="click: function() { mute() }"/>
+				
 				<img src="img/logo.jpg" id="logo" />
 				<ul id="levels">
+					
 					<li data-bind="css: {active: level() == 15}" data-amt="1000000" data-lvl="15">$1,000,000</li>
 					<li data-bind="css: {active: level() == 14}" data-amt="500000" data-lvl="14">$500,000</li>
 					<li data-bind="css: {active: level() == 13}" data-amt="250000" data-lvl="13">$250,000</li>
