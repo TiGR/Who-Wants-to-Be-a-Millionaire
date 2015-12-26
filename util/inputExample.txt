@@ -1,0 +1,33 @@
+# Set 1
+Is knockout great?	~Yes	No	No	No
+Is knockout great?	No	~Yes	No	No
+Is knockout great?	~Yes	No	No	No
+Is knockout great?	~Yes	No	No	No
+Is knockout great?	~Yes	No	No	No
+Is knockout great?	~Yes	No	No	No
+Is knockout great?	~Yes	No	No	No
+Is knockout great?	~Yes	No	No	No
+Is knockout great?	~Yes	No	No	No
+Is knockout great?	~Yes	No	No	No
+Is knockout great?	~Yes	No	No	No
+Is knockout great?	~Yes	No	No	No
+Is knockout great?	~Yes	No	No	No
+Is knockout great?	~Yes	No	No	No
+Is this example great?	~Of course	Of course!	Of course?	Yep.
+
+# Set 2
+Is knockout awesome?	~Yes	No	No	No
+Is knockout awesome?	No	~Yes	No	No
+Is knockout awesome?	~Yes	No	No	No
+Is knockout awesome?	~Yes	No	No	No
+Is knockout awesome?	~Yes	No	No	No
+Is knockout awesome?	~Yes	No	No	No
+Is knockout awesome?	~Yes	No	No	No
+Is knockout awesome?	~Yes	No	No	No
+Is knockout awesome?	~Yes	No	No	No
+Is knockout awesome?	~Yes	No	No	No
+Is knockout awesome?	~Yes	No	No	No
+Is knockout awesome?	~Yes	No	No	No
+Is knockout awesome?	~Yes	No	No	No
+Is knockout awesome?	~Yes	No	No	No
+Is this example awesome?	~Of course	Of course!	Of course?	Yep.
