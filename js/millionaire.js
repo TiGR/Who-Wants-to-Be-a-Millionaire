@@ -61,6 +61,9 @@ var MillionaireModel = function(data) {
  	// The current level(starting at 1) 
  	this.level = new ko.observable(1);
 
+ 	// Current selected answer (-1 for None)
+ 	this.answerSelected = ko.observable(-1);
+
  	// The three options the user can use to 
  	// attempt to answer a question (1 use each)
  	this.usedFifty = new ko.observable(false);
@@ -128,6 +131,11 @@ var MillionaireModel = function(data) {
  	self.answerQuestion = function(index, elm) {
  		if(self.transitioning)
  			return;
+ 		if (self.answerSelected() != index) {
+			self.answerSelected(index);
+			return;
+ 		}
+ 		self.answerSelected(-1);
  		self.transitioning = true;
  		if(self.questions[self.level() - 1].correct == index) {
  			self.rightAnswer(elm);
