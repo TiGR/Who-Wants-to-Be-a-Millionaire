@@ -44,7 +44,7 @@ ko.bindingHandlers.fadeVisible = {
 var configuration = {
 	// Default options
 	// Possible values (can be multiple): 'fifty', 'phone', 'audience'
-	defaultOptions: ['fifty', 'phone', 'audience'],
+	defaultOptions: ['fifty', 'phone', 'audience', 'secondChance'],
 	// If true, then after game over you can continue current level
 	giveLastChance: true,
 	// If true, then after 'last chance restart' options are reseted
@@ -99,13 +99,16 @@ var MillionaireModel = function(data) {
     this.transitioning = false;
 
     // The current money obtained
- 	this.money = new ko.observable(0);
+ 	this.money = ko.observable(0);
 
  	// The current level(starting at 1) 
- 	this.level = new ko.observable(1);
+ 	this.level = ko.observable(1);
 
  	// States of all four answers
  	this.answerStates = [new AnswerState(), new AnswerState(), new AnswerState(), new AnswerState()]
+
+ 	// Is 'second chance' option recently used
+ 	this.secondChanceInUse = ko.observable(false);
 
  	// The possible (unused) options (50-50 and etc)
  	this.options = ko.observableArray(configuration.defaultOptions.slice(0));
@@ -142,6 +145,8 @@ var MillionaireModel = function(data) {
 		var used = false;
 		if (value == 'fifty') {
 			used = self.fifty();
+		} else if (value == 'secondChance') {
+			used = self.secondChance();
 		} else if (value == 'phone' || value == 'audience') {
 			used = true;
 		} else {
@@ -150,6 +155,15 @@ var MillionaireModel = function(data) {
 		if (used) {
 			self.options.splice(index(), 1);
 		}
+ 	}
+
+ 	// You can choose one wrong answer option.
+ 	self.secondChance = function() {
+ 		if (self.secondChanceInUse()) {
+ 			return false;
+ 		}
+ 		self.secondChanceInUse(true);
+ 		return true;
  	}
 
  	// Uses the fifty-fifty option of the user
@@ -188,6 +202,10 @@ var MillionaireModel = function(data) {
 		}
  	}
 
+	self.resetAnswersView = function() {
+ 		$('.answer').css('background', '');
+ 	}
+
  	// Attempts to answer the question with the specified
  	// answer index (0-3) from a click event of elm
  	self.answerQuestion = function(index, elm) {
@@ -205,6 +223,7 @@ var MillionaireModel = function(data) {
  		} else {
  			self.wrongAnswer(elm);
  		}
+ 		self.secondChanceInUse(false);
  	}
 
  	// Executes the proceedure of a correct answer guess, moving
@@ -233,6 +252,7 @@ var MillionaireModel = function(data) {
 				 		self.transitioning = false;
 			 		})
  				}
+ 				self.resetAnswersView();
  			}, 1000)
  			
  		
@@ -242,7 +262,12 @@ var MillionaireModel = function(data) {
  	self.wrongAnswer = function(elm) {
  		
  			startSound('wrongsound', false);
- 			$(elm).css('background', 'red')
+ 			$(elm).css('background', 'red');
+ 			if (self.secondChanceInUse()) {
+ 				self.secondChanceInUse(false);
+ 				self.transitioning = false;
+ 				return;
+ 			}
  			setTimeout(function(){
  				$("#game").fadeOut('slow', function() {
  					if (configuration.giveLastChance) {
@@ -260,7 +285,7 @@ var MillionaireModel = function(data) {
  					}
  					$("#game-over").fadeIn('slow');
  					self.transitioning = false;
- 					$(elm).css('background', '')
+ 					self.resetAnswersView();
  				});
  			}, 1000)
  		
