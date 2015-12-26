@@ -39,22 +39,21 @@ Author: Aaron Nech
 				
 				<img src="img/logo.jpg" id="logo" />
 				<ul id="levels">
-
-					<li class = "yellow" data-bind="css: {active: level() == 15}" data-amt="1000000" data-lvl="15">$1,000,000</li>
-					<li data-bind="css: {active: level() == 14}" data-amt="500000" data-lvl="14">$500,000</li>
-					<li data-bind="css: {active: level() == 13}" data-amt="250000" data-lvl="13">$250,000</li>
-					<li data-bind="css: {active: level() == 12}" data-amt="125000" data-lvl="12">$125,000</li>
-					<li data-bind="css: {active: level() == 11}" data-amt="64000" data-lvl="11">$64,000</li>
-					<li class = "yellow" data-bind="css: {active: level() == 10}" data-amt="32000" data-lvl="10">$32,000</li>
-					<li data-bind="css: {active: level() == 9}" data-amt="16000" data-lvl="9">$16,000</li>
-					<li data-bind="css: {active: level() == 8}" data-amt="8000" data-lvl="8">$8,000</li>
-					<li data-bind="css: {active: level() == 7}" data-amt="4000" data-lvl="7">$4,000</li>
-					<li data-bind="css: {active: level() == 6}" data-amt="2000" data-lvl="6">$2,000</li>
-					<li class = "yellow" data-bind="css: {active: level() == 5}" data-amt="1000" data-lvl="5">$1,000</li>
-					<li data-bind="css: {active: level() == 4}" data-amt="500" data-lvl="4">$500</li>
-					<li data-bind="css: {active: level() == 3}" data-amt="300" data-lvl="3">$300</li>
-					<li data-bind="css: {active: level() == 2}" data-amt="200" data-lvl="2">$200</li>
-					<li data-bind="css: {active: level() == 1}" data-amt="100" data-lvl="1">$100</li>
+					<li data-bind="click: function () {majorLevel(15)}, css: {active: level() == 15, yellow: isMajorLevel(15)}" data-amt="1000000" data-lvl="15">$1,000,000</li>
+					<li data-bind="click: function () {majorLevel(14)}, css: {active: level() == 14, yellow: isMajorLevel(14)}" data-amt="500000" data-lvl="14">$500,000</li>
+					<li data-bind="click: function () {majorLevel(13)}, css: {active: level() == 13, yellow: isMajorLevel(13)}" data-amt="250000" data-lvl="13">$250,000</li>
+					<li data-bind="click: function () {majorLevel(12)}, css: {active: level() == 12, yellow: isMajorLevel(12)}" data-amt="125000" data-lvl="12">$125,000</li>
+					<li data-bind="click: function () {majorLevel(11)}, css: {active: level() == 11, yellow: isMajorLevel(11)}" data-amt="64000" data-lvl="11">$64,000</li>
+					<li data-bind="click: function () {majorLevel(10)}, css: {active: level() == 10, yellow: isMajorLevel(10)}" data-amt="32000" data-lvl="10">$32,000</li>
+					<li data-bind="click: function () {majorLevel(9)}, css: {active: level() == 9, yellow: isMajorLevel(9)}" data-amt="16000" data-lvl="9">$16,000</li>
+					<li data-bind="click: function () {majorLevel(8)}, css: {active: level() == 8, yellow: isMajorLevel(8)}" data-amt="8000" data-lvl="8">$8,000</li>
+					<li data-bind="click: function () {majorLevel(7)}, css: {active: level() == 7, yellow: isMajorLevel(7)}" data-amt="4000" data-lvl="7">$4,000</li>
+					<li data-bind="click: function () {majorLevel(6)}, css: {active: level() == 6, yellow: isMajorLevel(6)}" data-amt="2000" data-lvl="6">$2,000</li>
+					<li data-bind="click: function () {majorLevel(5)}, css: {active: level() == 5, yellow: isMajorLevel(5)}" data-amt="1000" data-lvl="5">$1,000</li>
+					<li data-bind="click: function () {majorLevel(4)}, css: {active: level() == 4, yellow: isMajorLevel(4)}" data-amt="500" data-lvl="4">$500</li>
+					<li data-bind="click: function () {majorLevel(3)}, css: {active: level() == 3, yellow: isMajorLevel(3)}" data-amt="300" data-lvl="3">$300</li>
+					<li data-bind="click: function () {majorLevel(2)}, css: {active: level() == 2, yellow: isMajorLevel(2)}" data-amt="200" data-lvl="2">$200</li>
+					<li data-bind="click: function () {majorLevel(1)}, css: {active: level() == 1, yellow: isMajorLevel(1)}" data-amt="100" data-lvl="1">$100</li>
 				</ul>
 				<div class="clear"></div>
 			</div>

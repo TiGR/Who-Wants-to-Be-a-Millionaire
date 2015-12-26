@@ -22,6 +22,16 @@ Number.prototype.money = function(fixed, decimalDelim, breakDelim){
 		  (fixed ? decimalDelim + Math.abs(n - i).toFixed(fixed).slice(2) : "");
 }
 
+/* Any for array */
+anyInArray = function (array, filter) {
+	var result = false;
+	for (var i=0; i<array.length; i++) {
+		if (filter(array[i]))
+			result = true;
+	}
+	return result;
+}
+
 /**
 * Ko handler to merge visible and transition
 */
@@ -45,6 +55,8 @@ var configuration = {
 	// Default options
 	// Possible values (can be multiple): 'fifty', 'phone', 'audience'
 	defaultOptions: ['fifty', 'phone', 'audience', 'secondChance'],
+	// Default highlighted money amounts (numerated from 1 to 15)
+	defaultMajorLevels: [5, 10, 15],
 	// If true, then after game over you can continue current level
 	giveLastChance: true,
 	// If true, then after 'last chance restart' options are reseted
@@ -112,6 +124,9 @@ var MillionaireModel = function(data) {
 
  	// The possible (unused) options (50-50 and etc)
  	this.options = ko.observableArray(configuration.defaultOptions.slice(0));
+
+ 	// Highlighted amounts
+ 	this.majorLevels = ko.observableArray(configuration.defaultMajorLevels.slice(0))
 
  	self.mute = function(){
  		this.muting = !this.muting;
@@ -188,6 +203,22 @@ var MillionaireModel = function(data) {
  		self.answerStates[first].visible(false);
  		self.answerStates[second].visible(false);
  		return true;
+ 	}
+
+ 	self.majorLevel = function(numpy) {
+ 		if (anyInArray(self.majorLevels(), function (level) {
+ 			return level == numpy;
+ 		})) {
+ 			self.majorLevels.remove(numpy);
+ 		} else {
+ 			self.majorLevels.push(numpy);
+ 		}
+ 	}
+
+ 	self.isMajorLevel = function(numpy) {
+ 		return anyInArray(self.majorLevels(), function (level) {
+ 			return numpy == level;
+ 		});
  	}
 
  	self.unselectAnswers = function() {
