@@ -73,12 +73,11 @@ Author: Aaron Nech
 				<div class="answer uibox" data-bind="click: function() { answerQuestion(0, $element) }, css: {selected: answerStates[0].selected()}, fadeVisible: answerStates[0].visible()">
 					<span class="big-text">A:</span><span data-bind="text: getAnswerText(0)"></span>
 				</div>
-				
-				<div class="answer uibox" data-bind="click: function() { answerQuestion(2, $element) }, css: {selected: answerStates[2].selected()}, fadeVisible: answerStates[2].visible()">
-					<span class="big-text">C:</span><span data-bind="text: getAnswerText(2)"></span>
-				</div>
 				<div class="answer uibox" data-bind="click: function() { answerQuestion(1, $element) }, css: {selected: answerStates[1].selected()}, fadeVisible: answerStates[1].visible()">
 					<span class="big-text">B:</span><span data-bind="text: getAnswerText(1)"></span>
+				</div>
+				<div class="answer uibox" data-bind="click: function() { answerQuestion(2, $element) }, css: {selected: answerStates[2].selected()}, fadeVisible: answerStates[2].visible()">
+					<span class="big-text">C:</span><span data-bind="text: getAnswerText(2)"></span>
 				</div>
 				<div class="answer uibox" data-bind="click: function() { answerQuestion(3, $element) }, css: {selected: answerStates[3].selected()}, fadeVisible: answerStates[3].visible()">
 					<span class="big-text">D:</span><span data-bind="text: getAnswerText(3)"></span>
