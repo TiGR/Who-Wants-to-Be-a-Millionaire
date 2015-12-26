@@ -42,6 +42,9 @@ ko.bindingHandlers.fadeVisible = {
 * Settings which can differ from game to game. Change them if you like. Easy and awesome.
 */
 var configuration = {
+	// Default options
+	// Possible values (can be multiple): 'fifty', 'phone', 'audience'
+	defaultOptions: ['fifty', 'phone', 'audience'],
 	// If true, then after game over you can continue current level
 	giveLastChance: true,
 	// If true, then after 'last chance restart' options are reseted
@@ -104,11 +107,8 @@ var MillionaireModel = function(data) {
  	// States of all four answers
  	this.answerStates = [new AnswerState(), new AnswerState(), new AnswerState(), new AnswerState()]
 
- 	// The three options the user can use to 
- 	// attempt to answer a question (1 use each)
- 	this.usedFifty = new ko.observable(false);
- 	this.usedPhone = new ko.observable(false);
- 	this.usedAudience = new ko.observable(false);
+ 	// The possible (unused) options (50-50 and etc)
+ 	this.options = ko.observableArray(configuration.defaultOptions.slice(0));
 
  	self.mute = function(){
  		this.muting = !this.muting;
@@ -135,10 +135,25 @@ var MillionaireModel = function(data) {
  		return self.questions[self.level() - 1].content[index];
  	}
 
+ 	self.useOption = function(index) {
+		if (self.transitioning)
+			return;
+		var value = self.options()[index()];
+		var used = false;
+		if (value == 'fifty') {
+			used = self.fifty();
+		} else if (value == 'phone' || value == 'audience') {
+			used = true;
+		} else {
+			throw 'Unknown option ' + value;
+		}
+		if (used) {
+			self.options.splice(index(), 1);
+		}
+ 	}
+
  	// Uses the fifty-fifty option of the user
- 	self.fifty = function(item, event) {
- 		if(self.transitioning)
- 			return;
+ 	self.fifty = function() {
  		var currentlyVisible = 0;
  		for (var i=0; i<4; i++) {
  			if (self.answerStates[i].visible()) {
@@ -146,9 +161,8 @@ var MillionaireModel = function(data) {
  			}
  		}
  		if (currentlyVisible < 4)
- 			return;
+ 			return false;
 
- 		self.usedFifty(true);
  		var correct = this.questions[self.level() - 1].correct;
  		var first = correct;
  		var second = correct;
@@ -159,20 +173,7 @@ var MillionaireModel = function(data) {
  		}
  		self.answerStates[first].visible(false);
  		self.answerStates[second].visible(false);
- 	}
-
- 	// Use phone
- 	self.phone = function(item, event) {
- 		if(self.transitioning)
- 			return;
- 		self.usedPhone(true);
- 	}
-
- 	// Use audience
- 	self.audience = function(item, event) {
- 		if(self.transitioning)
- 			return;
- 		self.usedAudience(true);
+ 		return true;
  	}
 
  	self.unselectAnswers = function() {
@@ -251,9 +252,7 @@ var MillionaireModel = function(data) {
 								$("#game").fadeIn('slow')
 							});
 							if (configuration.resetOptionsAfterLastChance) {
-								self.usedFifty(false);
-								self.usedAudience(false);
-								self.usedPhone(false);
+								self.options(configuration.defaultOptions.slice(0));
 							}
 						});
  					} else {
