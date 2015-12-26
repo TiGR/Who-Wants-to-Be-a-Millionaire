@@ -62,6 +62,20 @@ startSound = function(id, loop) {
 	soundHandle.play();
 }
 
+/* Give me random natural number */
+getRandomNumber = function (from, to) {
+	return Math.floor(Math.random() * (to - from + 1) + from);
+}
+
+/*
+* State of the answer (A-D)
+* Contains: is answer visible and is answer selected
+*/
+var AnswerState = function () {
+	this.visible = ko.observable(true);
+	this.selected = ko.observable(false);
+}
+
 /**
 * The View Model that represents one game of
 * Who Wants to Be a Millionaire.
@@ -87,8 +101,8 @@ var MillionaireModel = function(data) {
  	// The current level(starting at 1) 
  	this.level = new ko.observable(1);
 
- 	// Current selected answer (-1 for None)
- 	this.answerSelected = ko.observable(-1);
+ 	// States of all four answers
+ 	this.answerStates = [new AnswerState(), new AnswerState(), new AnswerState(), new AnswerState()]
 
  	// The three options the user can use to 
  	// attempt to answer a question (1 use each)
@@ -115,8 +129,6 @@ var MillionaireModel = function(data) {
  		return self.questions[self.level() - 1].question;
  	}
 
-
-
  	// Gets the answer text of a specified question index (0-3)
  	// from the current question
  	self.getAnswerText = function(index) {
@@ -127,22 +139,26 @@ var MillionaireModel = function(data) {
  	self.fifty = function(item, event) {
  		if(self.transitioning)
  			return;
+ 		var currentlyVisible = 0;
+ 		for (var i=0; i<4; i++) {
+ 			if (self.answerStates[i].visible()) {
+ 				currentlyVisible++;
+ 			}
+ 		}
+ 		if (currentlyVisible < 4)
+ 			return;
+
  		self.usedFifty(true);
  		var correct = this.questions[self.level() - 1].correct;
- 		var first = (correct + 1) % 4;
- 		var second = (first + 1) % 4;
- 		if(first == 0 || second == 0) {
- 			$("#answer-one").fadeOut('slow');
+ 		var first = correct;
+ 		var second = correct;
+ 		while (first == correct || second == correct || first == second) 
+ 		{
+	 		first = getRandomNumber(0, 3);
+	 		second = getRandomNumber(0, 3);
  		}
- 		if(first == 1 || second == 1) {
- 			$("#answer-two").fadeOut('slow');
- 		}
- 		if(first == 2 || second == 2) {
- 			$("#answer-three").fadeOut('slow');
- 		}
- 		if(first == 3 || second == 3) {
- 			$("#answer-four").fadeOut('slow');
- 		}
+ 		self.answerStates[first].visible(false);
+ 		self.answerStates[second].visible(false);
  	}
 
  	// Use phone
@@ -159,16 +175,29 @@ var MillionaireModel = function(data) {
  		self.usedAudience(true);
  	}
 
+ 	self.unselectAnswers = function() {
+ 		for (var i=0; i<4; i++) {
+			self.answerStates[i].selected(false);
+		}
+ 	}
+
+ 	self.showAllAnswers = function() {
+ 		for (var i=0; i<4; i++) {
+			self.answerStates[i].visible(true);
+		}
+ 	}
+
  	// Attempts to answer the question with the specified
  	// answer index (0-3) from a click event of elm
  	self.answerQuestion = function(index, elm) {
  		if(self.transitioning)
  			return;
- 		if (self.answerSelected() != index) {
-			self.answerSelected(index);
+ 		if (!self.answerStates[index].selected()) {
+ 			self.unselectAnswers();
+			self.answerStates[index].selected(true);
 			return;
  		}
- 		self.answerSelected(-1);
+ 		self.unselectAnswers();
  		self.transitioning = true;
  		if(self.questions[self.level() - 1].correct == index) {
  			self.rightAnswer(elm);
@@ -184,8 +213,8 @@ var MillionaireModel = function(data) {
  		
  			startSound('rightsound', false);
  			//var bgcss = ($("#" + elm).toggleClass('correct'))
- 			$("#" + elm).toggleClass('correct')
- 				setTimeout(function(){
+ 			$(elm).toggleClass('correct');
+			setTimeout(function () {
  				self.money($(".active").data('amt'));
  				if(self.level() + 1 > 15) {
 	 				$("#game").fadeOut('slow', function() {
@@ -198,11 +227,8 @@ var MillionaireModel = function(data) {
  						$("#question-answer-block").fadeIn('slow');
 
 	 					self.level(self.level() + 1);
-	 					var bgcss = ($("#" + elm).toggleClass('correct'))
-				 		$("#answer-one").show();
-				 		$("#answer-two").show();
-				 		$("#answer-three").show();
-				 		$("#answer-four").show();
+	 					var bgcss = ($(elm).toggleClass('correct'))
+				 		self.showAllAnswers();
 				 		self.transitioning = false;
 			 		})
  				}
@@ -215,7 +241,7 @@ var MillionaireModel = function(data) {
  	self.wrongAnswer = function(elm) {
  		
  			startSound('wrongsound', false);
- 			$("#" + elm).css('background', 'red')
+ 			$(elm).css('background', 'red')
  			setTimeout(function(){
  				$("#game").fadeOut('slow', function() {
  					if (configuration.giveLastChance) {
@@ -235,7 +261,7 @@ var MillionaireModel = function(data) {
  					}
  					$("#game-over").fadeIn('slow');
  					self.transitioning = false;
- 					$("#" + elm).css('background', '')
+ 					$(elm).css('background', '')
  				});
  			}, 1000)
  		

@@ -70,17 +70,17 @@ Author: Aaron Nech
 				<span class="content" data-bind="text: getQuestionText()"></span>
 			</div>
 			<div id="answer-box">
-				<div id="answer-one" class="answer uibox" data-bind="click: function() { answerQuestion(0, $element.id) }, css: {selected: answerSelected() == 0}">
+				<div class="answer uibox" data-bind="click: function() { answerQuestion(0, $element) }, css: {selected: answerStates[0].selected()}, fadeVisible: answerStates[0].visible()">
 					<span class="big-text">A:</span><span data-bind="text: getAnswerText(0)"></span>
 				</div>
 				
-				<div id="answer-three" class="answer uibox" data-bind="click: function() { answerQuestion(2, $element.id) }, css: {selected: answerSelected() == 2}">
+				<div class="answer uibox" data-bind="click: function() { answerQuestion(2, $element) }, css: {selected: answerStates[2].selected()}, fadeVisible: answerStates[2].visible()">
 					<span class="big-text">C:</span><span data-bind="text: getAnswerText(2)"></span>
 				</div>
-				<div id="answer-two" class="answer uibox" data-bind="click: function() { answerQuestion(1, $element.id) }, css: {selected: answerSelected() == 1}">
+				<div class="answer uibox" data-bind="click: function() { answerQuestion(1, $element) }, css: {selected: answerStates[1].selected()}, fadeVisible: answerStates[1].visible()">
 					<span class="big-text">B:</span><span data-bind="text: getAnswerText(1)"></span>
 				</div>
-				<div id="answer-four" class="answer uibox" data-bind="click: function() { answerQuestion(3, $element.id) }, css: {selected: answerSelected() == 3}">
+				<div class="answer uibox" data-bind="click: function() { answerQuestion(3, $element) }, css: {selected: answerStates[3].selected()}, fadeVisible: answerStates[3].visible()">
 					<span class="big-text">D:</span><span data-bind="text: getAnswerText(3)"></span>
 				</div>
 			</div>
