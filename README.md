@@ -48,9 +48,11 @@ Each array of questions is in the following format.
 # Configuration
 
 If you want to play game with some different rules, use configuration variable in millionare.js.
-Currently available options:
+Currently available features:
 - 'Last Chance': you can play game even after Game Over (continue with current question)
 - 'Reset Options': is used with 'Last Chance' and resets used options after using 'Last Chance'
+- Options: you can manually choose options allowed in this game
+- Major levels: you can manually choose which amounts of money considered 'major' (and even change this in the game)
 
 # Who Wants to Be a Millionaire Materials
 
