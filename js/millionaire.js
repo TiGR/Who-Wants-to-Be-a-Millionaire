@@ -99,10 +99,10 @@ var MillionaireModel = function(data) {
     this.transitioning = false;
 
     // The current money obtained
- 	this.money = new ko.observable(0);
+ 	this.money = ko.observable(0);
 
  	// The current level(starting at 1) 
- 	this.level = new ko.observable(1);
+ 	this.level = ko.observable(1);
 
  	// States of all four answers
  	this.answerStates = [new AnswerState(), new AnswerState(), new AnswerState(), new AnswerState()]
