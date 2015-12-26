@@ -129,6 +129,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262474', end
 	text-align: center;
 }
 
+#more-chance {
+	font-size: 0.2em;
+}
+
+#more-chance:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
 #fifty {
 	background: url('../img/50-50.png') no-repeat 0 0;
 }

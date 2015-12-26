@@ -59,9 +59,9 @@ Author: Aaron Nech
 				<div class="clear"></div>
 			</div>
 			<div id="options">
-				<div id="fifty" class="options-button" data-bind="click: fifty"></div>
-				<div id="phone-friend" class="options-button" data-bind="click: fadeOutOption"></div>
-				<div id="audience" class="options-button" data-bind="click: fadeOutOption"></div>
+				<div id="fifty" class="options-button" data-bind="click: fifty, fadeVisible: !usedFifty()"></div>
+				<div id="phone-friend" class="options-button" data-bind="click: phone, fadeVisible: !usedPhone()"></div>
+				<div id="audience" class="options-button" data-bind="click: audience, fadeVisible: !usedAudience()"></div>
 				<div id="money">$<span data-bind="text: formatMoney()"></span></div>
 			</div>
 			<div id="question-answer-block">

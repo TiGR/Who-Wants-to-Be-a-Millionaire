@@ -23,6 +23,32 @@ Number.prototype.money = function(fixed, decimalDelim, breakDelim){
 }
 
 /**
+* Ko handler to merge visible and transition
+*/
+ko.bindingHandlers.fadeVisible = {
+    init: function(element, valueAccessor) {
+        // Initially set the element to be instantly visible/hidden depending on the value
+        var value = valueAccessor();
+        $(element).toggle(ko.unwrap(value)); // Use "unwrapObservable" so we can handle values that may or may not be observable
+    },
+    update: function(element, valueAccessor) {
+        // Whenever the value subsequently changes, slowly fade the element in or out
+        var value = valueAccessor();
+        ko.unwrap(value) ? $(element).fadeIn('slow') : $(element).fadeOut('slow');
+    }
+};
+
+/**
+* Settings which can differ from game to game. Change them if you like. Easy and awesome.
+*/
+var configuration = {
+	// If true, then after game over you can continue current level
+	giveLastChance: true,
+	// If true, then after 'last chance restart' options are reseted
+	resetOptionsAfterLastChance: true
+}
+
+/**
 * Plays a sound via HTML5 through Audio tags on the page
 *
 * @require the id must be the id of an <audio> tag.
@@ -101,7 +127,7 @@ var MillionaireModel = function(data) {
  	self.fifty = function(item, event) {
  		if(self.transitioning)
  			return;
- 		$(event.target).fadeOut('slow');
+ 		self.usedFifty(true);
  		var correct = this.questions[self.level() - 1].correct;
  		var first = (correct + 1) % 4;
  		var second = (first + 1) % 4;
@@ -119,11 +145,18 @@ var MillionaireModel = function(data) {
  		}
  	}
 
- 	// Fades out an option used if possible
- 	self.fadeOutOption = function(item, event) {
+ 	// Use phone
+ 	self.phone = function(item, event) {
  		if(self.transitioning)
  			return;
- 		$(event.target).fadeOut('slow');
+ 		self.usedPhone(true);
+ 	}
+
+ 	// Use audience
+ 	self.audience = function(item, event) {
+ 		if(self.transitioning)
+ 			return;
+ 		self.usedAudience(true);
  	}
 
  	// Attempts to answer the question with the specified
@@ -164,13 +197,13 @@ var MillionaireModel = function(data) {
  					$("#question-answer-block").fadeOut('fast', function(){
  						$("#question-answer-block").fadeIn('slow');
 
- 					self.level(self.level() + 1);
- 					var bgcss = ($("#" + elm).toggleClass('correct'))
-			 		$("#answer-one").show();
-			 		$("#answer-two").show();
-			 		$("#answer-three").show();
-			 		$("#answer-four").show();
-			 		self.transitioning = false;
+	 					self.level(self.level() + 1);
+	 					var bgcss = ($("#" + elm).toggleClass('correct'))
+				 		$("#answer-one").show();
+				 		$("#answer-two").show();
+				 		$("#answer-three").show();
+				 		$("#answer-four").show();
+				 		self.transitioning = false;
 			 		})
  				}
  			}, 1000)
@@ -185,9 +218,24 @@ var MillionaireModel = function(data) {
  			$("#" + elm).css('background', 'red')
  			setTimeout(function(){
  				$("#game").fadeOut('slow', function() {
- 					$("#game-over").html('Game Over!');
+ 					if (configuration.giveLastChance) {
+ 						$("#game-over").html('<p>Game Over!</p><p id="more-chance">please give me one more chance</p>');
+ 						$("#more-chance").click(function () {
+							$("#game-over").fadeOut('slow', function () {
+								$("#game").fadeIn('slow')
+							});
+							if (configuration.resetOptionsAfterLastChance) {
+								self.usedFifty(false);
+								self.usedAudience(false);
+								self.usedPhone(false);
+							}
+						});
+ 					} else {
+ 						$("#game-over").html('Game Over!');
+ 					}
  					$("#game-over").fadeIn('slow');
  					self.transitioning = false;
+ 					$("#" + elm).css('background', '')
  				});
  			}, 1000)
  		
