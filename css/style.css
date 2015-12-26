@@ -142,6 +142,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262474', end
 	background: url('../img/50-50.png') no-repeat 0 0;
 }
 
+.secondChance {
+	background: url('../img/secondChance.png') no-repeat 0 0;
+}
+
 .phone {
 	background: url('../img/phone-friend.png') no-repeat 0 0;
 }
