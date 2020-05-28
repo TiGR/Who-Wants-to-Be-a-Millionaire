@@ -10,12 +10,12 @@
 *		  like this: x,xxx.xx
 */
 Number.prototype.money = function(fixed, decimalDelim, breakDelim){
-	var n = this, 
-	fixed = isNaN(fixed = Math.abs(fixed)) ? 2 : fixed, 
-	decimalDelim = decimalDelim == undefined ? "." : decimalDelim, 
-	breakDelim = breakDelim == undefined ? "," : breakDelim, 
-	negative = n < 0 ? "-" : "", 
-	i = parseInt(n = Math.abs(+n || 0).toFixed(fixed)) + "", 
+	var n = this,
+	fixed = isNaN(fixed = Math.abs(fixed)) ? 2 : fixed,
+	decimalDelim = decimalDelim == undefined ? "." : decimalDelim,
+	breakDelim = breakDelim == undefined ? "," : breakDelim,
+	negative = n < 0 ? "-" : "",
+	i = parseInt(n = Math.abs(+n || 0).toFixed(fixed)) + "",
 	j = (j = i.length) > 3 ? j % 3 : 0;
 	return negative + (j ? i.substr(0, j) +
 		 breakDelim : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + breakDelim) +
@@ -54,11 +54,11 @@ ko.bindingHandlers.fadeVisible = {
 var configuration = {
 	// Default options
 	// Possible values (can be multiple): 'fifty', 'phone', 'audience'
-	defaultOptions: ['fifty', 'phone', 'audience', 'secondChance'],
+	defaultOptions: ['fifty', 'phone', 'audience', 'secondChance', 'secondChance', 'secondChance'],
 	// Default highlighted money amounts (numerated from 1 to 15)
 	defaultMajorLevels: [5, 10, 15],
 	// If true, then after game over you can continue current level
-	giveLastChance: true,
+	giveLastChance: false,
 	// If true, then after 'last chance restart' options are reseted
 	resetOptionsAfterLastChance: true
 }
@@ -94,7 +94,7 @@ var AnswerState = function () {
 /**
 * The View Model that represents one game of
 * Who Wants to Be a Millionaire.
-* 
+*
 * @param data the question bank to use
 */
 var MillionaireModel = function(data) {
@@ -113,7 +113,7 @@ var MillionaireModel = function(data) {
     // The current money obtained
  	this.money = ko.observable(0);
 
- 	// The current level(starting at 1) 
+ 	// The current level(starting at 1)
  	this.level = ko.observable(1);
 
  	// States of all four answers
@@ -195,7 +195,7 @@ var MillionaireModel = function(data) {
  		var correct = this.questions[self.level() - 1].correct;
  		var first = correct;
  		var second = correct;
- 		while (first == correct || second == correct || first == second) 
+ 		while (first == correct || second == correct || first == second)
  		{
 	 		first = getRandomNumber(0, 3);
 	 		second = getRandomNumber(0, 3);
@@ -261,7 +261,7 @@ var MillionaireModel = function(data) {
  	// the player to the next level (or winning the game if all
  	// levels have been completed)
  	self.rightAnswer = function(elm) {
- 		
+
  			startSound('rightsound', false);
  			//var bgcss = ($("#" + elm).toggleClass('correct'))
  			$(elm).toggleClass('correct');
@@ -273,7 +273,7 @@ var MillionaireModel = function(data) {
 	 					$("#game-over").fadeIn('slow');
 	 				});
  				} else {
- 					
+
  					$("#question-answer-block").fadeOut('fast', function(){
  						$("#question-answer-block").fadeIn('slow');
 
@@ -285,13 +285,13 @@ var MillionaireModel = function(data) {
  				}
  				self.resetAnswersView();
  			}, 1000)
- 			
- 		
+
+
  	}
 
  	// Executes the proceedure of guessing incorrectly, losing the game.
  	self.wrongAnswer = function(elm) {
- 		
+
  			startSound('wrongsound', false);
  			$(elm).css('background', 'red');
  			if (self.secondChanceInUse()) {
@@ -319,7 +319,7 @@ var MillionaireModel = function(data) {
  					self.resetAnswersView();
  				});
  			}, 1000)
- 		
+
  	}
 
  	// Gets the money formatted string of the current won amount of money.
