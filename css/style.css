@@ -20,7 +20,7 @@ audio {
 #game {
 	display: none;
 	text-align: center;
-	
+
 }
 
 #top {
@@ -71,7 +71,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262474', end
 
 #question-box {
 	/*border: 2px solid #32469B;*/
-	
+
 	width: 940px;
 	margin: 10px auto;
 	padding: 10px;
@@ -88,9 +88,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262474', end
 
 #question-box .content{
 	line-height: 1.7em;
-	
+
 	color:#ffffff;
-	
+
 
 }
 
@@ -186,9 +186,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262474', end
 
 .answer:hover, .selected {
 	cursor: pointer;
-	
+
 	background: #ffcc00;
 	color:#100E39;
+}
+
+.answer.disabled {
+    opacity: 0.3;
+    pointer-events: none;
 }
 
 .options-button {
