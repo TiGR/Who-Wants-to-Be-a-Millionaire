@@ -265,26 +265,28 @@ var MillionaireModel = function(data) {
  			startSound('rightsound', false);
  			//var bgcss = ($("#" + elm).toggleClass('correct'))
  			$(elm).toggleClass('correct');
-			setTimeout(function () {
- 				self.money($(".active").data('amt'));
- 				if(self.level() + 1 > 15) {
-	 				$("#game").fadeOut('slow', function() {
-	 					$("#game-over").html('You Win!');
-	 					$("#game-over").fadeIn('slow');
-	 				});
- 				} else {
+ 			setTimeout(() => {
+                $("#question-answer-block").fadeOut('slow');
+ 			    $(document).one('click',function(e) {
+ 			        console.log('here');
+                    e.preventDefault();
+                    self.money($(".active").data('amt'));
+                    if(self.level() + 1 > 15) {
+                        $("#game").fadeOut('slow', function() {
+                            $("#game-over").html('You Win!');
+                            $("#game-over").fadeIn('slow');
+                        });
+                    } else {
+                        $("#question-answer-block").fadeIn('slow');
 
- 					$("#question-answer-block").fadeOut('fast', function(){
- 						$("#question-answer-block").fadeIn('slow');
-
-	 					self.level(self.level() + 1);
-	 					var bgcss = ($(elm).toggleClass('correct'))
-				 		self.showAllAnswers();
-				 		self.transitioning = false;
-			 		})
- 				}
- 				self.resetAnswersView();
- 			}, 1000)
+                        self.level(self.level() + 1);
+                        var bgcss = ($(elm).toggleClass('correct'))
+                        self.showAllAnswers();
+                        self.transitioning = false;
+                    }
+                    self.resetAnswersView();
+                })
+            }, 3000);
 
 
  	}
